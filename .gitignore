@@ -4,7 +4,24 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 lerna-debug.log*
+
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -38,7 +55,7 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+**/node_modules/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
@@ -137,3 +154,29 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# --- MEINE ERWEITERUNGEN FÜR DAS PROJEKT ---
+
+# PHP / Composer
+**/vendor
+composer.lock
+
+# Datenbank-Konfiguration & API-Secrets (WICHTIG für die Sicherheit!)
+.env
+config.php
+config.local.php
+
+# Bilder-Verzeichnis (Damit dein Repo schlank bleibt)
+# Wir ignorieren alle Bilder im Artwork-Ordner
+**/assets/images/artwork/*
+**/assets/images/article_img/*
+
+# Ausnahme: Eine leere Datei behalten, damit der Ordner auf GitHub existiert
+!/assets/images/artwork/.gitkeep
+!/assets/images/article_img/gitkeep
+
+# Windows-Systemdateien
+Thumbs.db
+Desktop.ini
+
+_Relaunch_StreetartMuseum.code-workspace
