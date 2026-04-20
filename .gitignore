@@ -172,8 +172,8 @@ config.local.php
 **/assets/images/article_img/*
 
 # Ausnahme: Eine leere Datei behalten, damit der Ordner auf GitHub existiert
-!/assets/images/artwork/.gitkeep
-!/assets/images/article_img/gitkeep
+!**/assets/images/artwork/.gitkeep
+!**/assets/images/article_img/gitkeep
 
 # Windows-Systemdateien
 Thumbs.db
