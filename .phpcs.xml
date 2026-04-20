@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="CustomRuleset">
+    <description>Custom ruleset for Streetartmuseum project</description>
+
+    <!-- Include the PSR-12 standard -->
+    <rule ref="PSR12"/>
+
+    <!-- Customizations -->
+    <config name="lineLength" value="120"/>
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="absoluteLineLimit" value="0"/>
+            <property name="lineLimit" value="120"/>
+        </properties>
+    </rule>
+
+    <!-- Ignore missing file doc comments -->
+    <rule ref="Squiz.Commenting.FileComment">
+        <exclude name="Squiz.Commenting.FileComment.Missing"/>
+    </rule>
+</ruleset>

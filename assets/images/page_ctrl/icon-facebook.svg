@@ -1,0 +1,5 @@
+<svg id="icon-facebook" xmlns="http://www.w3.org/2000/svg" width="28" height="84" viewBox="0 0 28 84">
+  <circle id="Ellipse_48" data-name="Ellipse 48" cx="14" cy="14" r="14" transform="translate(0 56)" fill="#f1f3fd"/>
+  <path id="iconmonstr-facebook-5" d="M14,2.333A11.667,11.667,0,1,1,2.333,14,11.68,11.68,0,0,1,14,2.333ZM14,0A14,14,0,1,0,28,14,14,14,0,0,0,14,0ZM11.667,11.667H9.333V14h2.333v7h3.5V14H17.29l.21-2.333H15.167v-.972c0-.558.112-.778.651-.778H17.5V7H14.7c-2.1,0-3.029.924-3.029,2.693v1.974Z" fill="#606fc4"/>
+  <path id="iconmonstr-facebook-5-2" data-name="iconmonstr-facebook-5" d="M14,2.333A11.667,11.667,0,1,1,2.333,14,11.68,11.68,0,0,1,14,2.333ZM14,0A14,14,0,1,0,28,14,14,14,0,0,0,14,0ZM11.667,11.667H9.333V14h2.333v7h3.5V14H17.29l.21-2.333H15.167v-.972c0-.558.112-.778.651-.778H17.5V7H14.7c-2.1,0-3.029.924-3.029,2.693v1.974Z" transform="translate(0 56)" fill="#202b6a"/>
+</svg>

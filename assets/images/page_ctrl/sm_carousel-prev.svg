@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="31.256" height="48.986" viewBox="0 0 31.256 48.986">
+  <defs>
+    <filter id="Pfad_2" x="0" y="0" width="31.256" height="48.986" filterUnits="userSpaceOnUse">
+      <feOffset dx="3" dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feFlood flood-color="#010021" flood-opacity="0.302"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Carousel_prev" data-name="Carousel prev" transform="translate(5.514 3.493)">
+    <g transform="matrix(1, 0, 0, 1, -5.51, -3.49)" filter="url(#Pfad_2)">
+      <path id="Pfad_2-2" data-name="Pfad 2" d="M595,595.615l-16,18,16,18" transform="translate(-573.49 -592.12)" fill="none" stroke="#f1f3fd" stroke-width="6"/>
+    </g>
+  </g>
+</svg>

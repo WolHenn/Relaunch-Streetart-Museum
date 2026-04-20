@@ -1,0 +1,63 @@
+# Version: 3.8
+# Description: Docker Compose file for a PHP application with MySQL and phpMyAdmin
+services:
+  php-container:
+    image: local_php-api
+    ports:
+      - "8082:80"
+    networks:
+      - mynetwork
+    volumes:
+      - ./assets:/var/www/html/assets  # ← Bilder in den Container mounten
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - CACHEBUST=${CACHEBUST}
+
+# NEW: React Maintenance Interface
+  maintenance-ui:
+    image: node:20-slim
+    container_name: website-maintenance
+    working_dir: /app
+    volumes:
+      - ./maintenance-app:/app
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - mynetwork
+    # Hält den Container am Leben und erlaubt Terminal-Interaktion
+    stdin_open: true
+    tty: true
+    command: npm run dev -- --host 
+    
+  streetart_mysql-container:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: streetart_img_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mynetwork
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: streetart_mysql-container
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+
+volumes:
+  mysql_data:

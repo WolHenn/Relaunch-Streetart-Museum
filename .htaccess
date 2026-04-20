@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Statische Dateien (Bilder, CSS, JS) direkt ausliefern
+RewriteCond %{REQUEST_URI} ^/assets/ [NC]
+RewriteRule ^ - [L]
+
+# Alles andere an index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]

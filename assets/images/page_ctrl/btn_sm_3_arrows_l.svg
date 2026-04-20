@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40.128" height="28.993" viewBox="0 0 40.128 28.993">
+  <defs>
+    <filter id="Pfad_108" x="0" y="0" width="20.128" height="28.993" filterUnits="userSpaceOnUse">
+      <feOffset dx="1" dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feFlood flood-color="#010021" flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Pfad_109" x="10" y="0" width="20.128" height="28.993" filterUnits="userSpaceOnUse">
+      <feOffset dx="1" dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur-2"/>
+      <feFlood flood-color="#010021" flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Pfad_110" x="20" y="0" width="20.128" height="28.993" filterUnits="userSpaceOnUse">
+      <feOffset dx="1" dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur-3"/>
+      <feFlood flood-color="#010021" flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Gruppe_89" data-name="Gruppe 89" transform="translate(5.507 4.496)">
+    <g transform="matrix(1, 0, 0, 1, -5.51, -4.5)" filter="url(#Pfad_108)">
+      <path id="Pfad_108-2" data-name="Pfad 108" d="M587,595.615l-8,9,8,9" transform="translate(-573.49 -591.12)" fill="none" stroke="#f1f3fd" stroke-width="3"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -5.51, -4.5)" filter="url(#Pfad_109)">
+      <path id="Pfad_109-2" data-name="Pfad 109" d="M587,595.615l-8,9,8,9" transform="translate(-563.49 -591.12)" fill="none" stroke="#f1f3fd" stroke-width="3"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -5.51, -4.5)" filter="url(#Pfad_110)">
+      <path id="Pfad_110-2" data-name="Pfad 110" d="M587,595.615l-8,9,8,9" transform="translate(-553.49 -591.12)" fill="none" stroke="#f1f3fd" stroke-width="3"/>
+    </g>
+  </g>
+</svg>
