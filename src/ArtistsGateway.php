@@ -123,6 +123,45 @@ class ArtistsGateway
         }
     }
 
+    public function getAllNames(?string $initialLetter = null, ?string $search = null): array
+    {
+        try {
+            $sql = "SELECT id, name FROM artists";
+            $params = [];
+            $conditions = [];
+
+            if ($initialLetter !== null) {
+                $conditions[] = "name LIKE :initialLetter";
+                $params['initialLetter'] = $initialLetter . '%';
+            }
+
+            if ($search !== null) {
+                $conditions[] = "name LIKE :search";
+                $params['search'] = '%' . $search . '%';
+            }
+
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            $sql .= " ORDER BY name";
+            $stmt = $this->conn->prepare($sql);
+
+            foreach ($params as $key => $value) {
+                $stmt->bindValue(':' . $key, $value, PDO::PARAM_STR);
+            }
+
+            $stmt->execute();
+            return [
+            'success' => true,
+            'data'    => ['artists' => $stmt->fetchAll(PDO::FETCH_ASSOC)]
+            ];
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return ['success' => false, 'error' => 'Datenbankfehler beim Laden der Künstlernamen.'];
+        }
+    }
+
     public function getSliderImages(): array
     {
         try {

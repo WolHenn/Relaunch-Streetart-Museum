@@ -1,14 +1,5 @@
 <?php
 
-/**
- * Controller for handling artist-related requests.
- *
- * @category Controller
- * @package  StreetArtMuseum
- * @author   Your Name <your.email@example.com>
- * @license  MIT License
- * @link     http://example.com
- */
 class ArtistsController
 {
     public function __construct(private ArtistsGateway $gateway)
@@ -213,10 +204,21 @@ class ArtistsController
         switch ($method) {
             case "GET":
                 $initialLetter = $_GET['initialLetter'] ?? null;
-                $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 50;
-                $offset = isset($_GET['offset']) ? (int) $_GET['offset'] : 0;
+                $namesOnly = isset($_GET['namesOnly']) && $_GET['namesOnly'] === 'true';
+                $search = isset($_GET['search']) ? trim($_GET['search']) : null;
 
-                $response = $this->gateway->getAll($initialLetter, $limit, $offset);
+    // Leeren Search-String als null behandeln
+                if ($search === '') {
+                    $search = null;
+                }
+
+                if ($namesOnly) {
+                    $response = $this->gateway->getAllNames($initialLetter, $search);
+                } else {
+                    $limit  = isset($_GET['limit'])  ? (int) $_GET['limit']  : 50;
+                    $offset = isset($_GET['offset']) ? (int) $_GET['offset'] : 0;
+                    $response = $this->gateway->getAll($initialLetter, $limit, $offset);
+                }
 
                 if ($response['success']) {
                     echo json_encode(
