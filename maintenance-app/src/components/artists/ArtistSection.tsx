@@ -77,6 +77,7 @@ export default function ArtistSection() {
           ))}
         </tbody>
       </table>
+      {/* Testbilder */}
       <div>
         <img src="http://localhost:8082/assets/images/artwork/BlekLeRat/thumb_dummi_1.jpg" alt="" width={100} height={100} />
         <img src="http://localhost:8082/assets/images/artwork/BlekLeRat/thumb_dummi_2.jpg" alt="" width={100} height={100} />
