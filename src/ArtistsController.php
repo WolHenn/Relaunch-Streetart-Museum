@@ -59,21 +59,24 @@ class ArtistsController
             case "PATCH":
                 $data = (array) json_decode(file_get_contents("php://input"), true);
 
-                $errors = $this->getValidationErrors($data, false);
-
-                if (!empty($errors)) {
-                    http_response_code(422);
-                    echo json_encode(["errors" => $errors]);
-                    return;
-                }
-
                 if ($resourceType === 'artists') {
-                    $rows = $this->gateway->updateArtist($artist, $data);
+                    // ✅ ['artist' => [...]] entpacken:
+                    $artistData = $artist['artist'] ?? $artist;
+
+                    $errors = $this->getValidationErrors($data, false);
+                    if (!empty($errors)) {
+                        http_response_code(422);
+                        echo json_encode(["errors" => $errors]);
+                        return;
+                    }
+
+                    $rows = $this->gateway->updateArtist($artistData, $data);
                     echo json_encode([
                         "message" => "Artist $id updated",
                         "rows"    => $rows
                     ]);
                 } elseif ($resourceType === 'images') {
+                    // images hat das gleiche Problem – imageData direkt verwenden
                     $rows = $this->gateway->updateImage($image, $data);
                     echo json_encode([
                         "message" => "Image $id updated",

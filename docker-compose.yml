@@ -31,7 +31,7 @@ services:
     # Hält den Container am Leben und erlaubt Terminal-Interaktion
     stdin_open: true
     tty: true
-    command: npm run dev -- --host 
+    command: sh -c "npm install && npm run dev -- --host"
     
   streetart_mysql-container:
     image: mysql:latest

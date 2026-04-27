@@ -1,121 +1,149 @@
-import { useEffect, useState } from "react";
-import { fetchArtistNames, fetchArtist, deleteArtist } from "../api/artistsApi";
+import { useEffect, useState, Fragment } from "react";
+import {
+  fetchArtistNames,
+  deleteArtist,
+  createArtist,
+  updateArtist,
+} from "../api/artistsApi";
 import AlphabetButtons from "../components/artists/AlphabetButtons";
 import ArtistTypeahead from "../components/artists/ArtistTypeahead";
-import ArtistRow from "../components/artists/ArtistRow";
+import ArtistExpandedRow from "../components/artists/ArtistExpandedRow";
+import ArtistForm from "../components/artists/ArtistForm";
 import type { Artist } from "../services/artist_types";
 
 export default function ArtistsPage() {
-    const [artistNames, setArtistNames] = useState<{ id: number; name: string }[]>([]);
-    const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
-    const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+  const [artistNames, setArtistNames] = useState<
+    { id: number; name: string }[]
+  >([]);
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-    // Namen laden wenn Buchstabe gewechselt wird
-    useEffect(() => {
-        setLoading(true);
-        fetchArtistNames(selectedLetter ?? undefined)
-            .then((names) => {
-                setArtistNames(names);
-                setLoading(false);
-            });
-    }, [selectedLetter]);
+  const loadNames = async () => {
+    setLoading(true);
+    const names = await fetchArtistNames(selectedLetter ?? undefined);
+    setArtistNames(names);
+    setLoading(false);
+  };
 
-    // Einzelnen Künstler mit allen Daten laden (für Bearbeiten/Anzeigen)
-    const handleSelect = async (id: number) => {
-        const artist = await fetchArtist(id);
-        setSelectedArtist(artist);
-    };
+  useEffect(() => {
+    loadNames();
+  }, [selectedLetter]);
 
-    const handleDelete = async (id: number) => {
-        if (!window.confirm("Künstler wirklich löschen?")) return;
-        const ok = await deleteArtist(id);
-        if (ok) {
-            setArtistNames((prev) => prev.filter((a) => a.id !== id));
-            if (selectedArtist?.id === id) setSelectedArtist(null);
-        } else {
-            alert("Fehler beim Löschen.");
-        }
-    };
+  const handleDelete = async (id: number) => {
+    if (
+      !window.confirm(
+        "Künstler wirklich löschen? Alle Bilder werden ebenfalls gelöscht.",
+      )
+    )
+      return;
+    const ok = await deleteArtist(id);
+    if (ok) {
+      setArtistNames((prev) => prev.filter((a) => a.id !== id));
+      if (expandedId === id) setExpandedId(null);
+    } else {
+      alert("Fehler beim Löschen.");
+    }
+  };
 
-    return (
-        <div className="p-4">
-            <h2 className="text-2xl font-bold mb-4">Künstlerverwaltung</h2>
+  const handleEdit = (id: number) => {
+    setShowCreateForm(false);
+    setExpandedId((prev) => (prev === id ? null : id));
+  };
 
-            {/* Filter-Bereich */}
-            <div className="flex flex-wrap items-center gap-4 mb-4">
-                <AlphabetButtons
-                    selected={selectedLetter}
-                    onSelect={setSelectedLetter}
-                />
-                <ArtistTypeahead onSelect={(id) => handleSelect(id)} />
-            </div>
+  const handleSave = async (data: Partial<Artist>) => {
+    if (expandedId) {
+      await updateArtist(expandedId, data);
+    }
+    await loadNames();
+    setExpandedId(null);
+  };
 
-            {/* Künstlerliste */}
-            {loading ? (
-                <div>Lade Künstler...</div>
-            ) : (
-                <table className="min-w-full bg-white border">
-                    <thead>
-                        <tr className="bg-gray-100">
-                            <th className="p-2 text-left">ID</th>
-                            <th className="p-2 text-left">Name</th>
-                            <th className="p-2 text-left">Herkunft</th>
-                            <th className="p-2 text-left">Aktionen</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {artistNames.map((a) => (
-                            <tr
-                                key={a.id}
-                                className="border-b hover:bg-gray-50 cursor-pointer"
-                            >
-                                <td className="p-2">{a.id}</td>
-                                <td
-                                    className="p-2 text-blue-600 hover:underline"
-                                    onClick={() => handleSelect(a.id)}
-                                >
-                                    {a.name}
-                                </td>
-                                <td className="p-2">–</td>
-                                <td className="p-2 flex gap-2">
-                                    <button
-                                        onClick={() => handleSelect(a.id)}
-                                        className="bg-blue-500 text-white px-2 py-1 rounded text-sm"
-                                    >
-                                        Bearbeiten
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(a.id)}
-                                        className="bg-red-500 text-white px-2 py-1 rounded text-sm"
-                                    >
-                                        Löschen
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+  const handleCreate = async (data: Partial<Artist>) => {
+    await createArtist(data);
+    await loadNames();
+    setShowCreateForm(false);
+  };
 
-            {/* Detailansicht des gewählten Künstlers */}
-            {selectedArtist && (
-                <div className="mt-6 p-4 border rounded bg-gray-50">
-                    <h3 className="text-xl font-bold">{selectedArtist.name}</h3>
-                    <p className="text-gray-600">{selectedArtist.origin}</p>
-                    <p className="mt-2">{selectedArtist.vita}</p>
-                    <div className="flex flex-wrap gap-2 mt-4">
-                        {selectedArtist.artistsImages?.map((img) => (
-                            <img
-                                key={img.id}
-                                src={`http://localhost:8082/${img.thumbnailUrl?.replace("../../", "")}`}
-                                alt={img.alt}
-                                className="w-24 h-24 object-cover rounded"
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
-        </div>
-    );
+  return (
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">Künstlerverwaltung</h2>
+        <button
+          onClick={() => {
+            setShowCreateForm((v) => !v);
+            setExpandedId(null);
+          }}
+          className="bg-green-600 text-white px-4 py-2 rounded"
+        >
+          {showCreateForm ? "Abbrechen" : "+ Neuen Künstler anlegen"}
+        </button>
+      </div>
+
+      {/* Formular für neuen Künstler */}
+      {showCreateForm && (
+        <ArtistForm
+          onSave={handleCreate}
+          onCancel={() => setShowCreateForm(false)}
+        />
+      )}
+
+      {/* Filter */}
+      <div className="flex flex-wrap items-center gap-4 my-4">
+        <AlphabetButtons
+          selected={selectedLetter}
+          onSelect={setSelectedLetter}
+        />
+        <ArtistTypeahead onSelect={(id) => handleEdit(id)} />
+      </div>
+
+      {/* Tabelle */}
+      {loading ? (
+        <div>Lade Künstler...</div>
+      ) : (
+        <table className="min-w-full bg-white border">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="p-2 text-left">ID</th>
+              <th className="p-2 text-left">Name</th>
+              <th className="p-2 text-left">Aktionen</th>
+            </tr>
+          </thead>
+          <tbody>
+            {artistNames.map((a) => (
+              <Fragment key={a.id}>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="p-2">{a.id}</td>
+                  <td className="p-2">{a.name}</td>
+                  <td className="p-2 flex gap-2">
+                    <button
+                      onClick={() => handleEdit(a.id)}
+                      className="bg-blue-500 text-white px-2 py-1 rounded text-sm"
+                    >
+                      {expandedId === a.id ? "Schließen" : "Bearbeiten"}
+                    </button>
+                    <button
+                      onClick={() => handleDelete(a.id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded text-sm"
+                    >
+                      Löschen
+                    </button>
+                  </td>
+                </tr>
+
+                {expandedId === a.id && (
+                  <ArtistExpandedRow
+                    artistId={a.id}
+                    onClose={() => setExpandedId(null)}
+                    onSave={handleSave}
+                  />
+                )}
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
 }

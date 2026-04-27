@@ -62,3 +62,23 @@ export async function deleteImage(id: number): Promise<boolean> {
     });
     return res.ok;
 }
+
+// Neuen Künstler anlegen
+export async function createArtist(data: Partial<Artist>): Promise<boolean> {
+    const res = await authenticatedFetch(`${BASE_URL}/artists`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
+    return res.ok;
+}
+
+// Vorhandene Künstlerdaten aktualisieren
+export async function updateArtist(id: number, data: Partial<Artist>): Promise<boolean> {
+    const res = await authenticatedFetch(`${BASE_URL}/artists/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
+    return res.ok;
+}

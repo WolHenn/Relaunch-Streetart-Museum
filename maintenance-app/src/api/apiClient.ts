@@ -11,7 +11,6 @@ export const authenticatedFetch = async (url: string, options: RequestInit = {})
 
     if (response.status === 401) {
         // Token abgelaufen oder ungültig -> zurück zum Login
-        console.log("Token ungültig, leite um..."); // Zum Debuggen
         localStorage.removeItem('token');
         window.location.href = '/login'; 
     }
