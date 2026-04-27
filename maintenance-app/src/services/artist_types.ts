@@ -6,7 +6,6 @@ export interface Artist {
   homepageUrl?: string;
   facebookUrl?: string;
   instaUrl?: string;
-  twitter?: string;
   artistsImages?: ArtistImage[];
 }
 

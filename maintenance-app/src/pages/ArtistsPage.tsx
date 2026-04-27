@@ -61,9 +61,14 @@ export default function ArtistsPage() {
   };
 
   const handleCreate = async (data: Partial<Artist>) => {
-    await createArtist(data);
-    await loadNames();
-    setShowCreateForm(false);
+    const newId = await createArtist(data);
+    if (newId > 0) {
+      await loadNames();
+      setShowCreateForm(false);
+      setExpandedId(newId); // ← sofort aufklappen für Bilder
+    } else {
+      alert("Fehler beim Anlegen des Künstlers.");
+    }
   };
 
   return (

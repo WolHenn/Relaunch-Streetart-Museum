@@ -70,8 +70,8 @@ class ArtistsGateway
     {
         try {
             $insertArtistSQL = "INSERT INTO artists 
-                (name, origin, vita, homepageUrl, facebookUrl, instaUrl, twitter) 
-                VALUES (:name, :origin, :vita, :homepageUrl, :facebookUrl, :instaUrl, :twitter)";
+                (name, origin, vita, homepageUrl, facebookUrl, instaUrl) 
+                VALUES (:name, :origin, :vita, :homepageUrl, :facebookUrl, :instaUrl)";
 
             $artistStmt = $this->conn->prepare($insertArtistSQL);
             $artistStmt->bindValue(":name", $data["name"], PDO::PARAM_STR);
@@ -80,7 +80,6 @@ class ArtistsGateway
             $artistStmt->bindValue(":homepageUrl", $data["homepageUrl"] ?? "", PDO::PARAM_STR);
             $artistStmt->bindValue(":facebookUrl", $data["facebookUrl"] ?? "", PDO::PARAM_STR);
             $artistStmt->bindValue(":instaUrl", $data["instaUrl"] ?? "", PDO::PARAM_STR);
-            $artistStmt->bindValue(":twitter", $data["twitter"] ?? "", PDO::PARAM_STR);
             $artistStmt->execute();
 
             return $this->conn->lastInsertId();
@@ -273,7 +272,7 @@ class ArtistsGateway
             $sql = "UPDATE artists 
                 SET name = :name, origin = :origin, vita = :vita, 
                     homepageUrl = :homepageUrl, facebookUrl = :facebookUrl, 
-                    instaUrl = :instaUrl, twitter = :twitter
+                    instaUrl = :instaUrl
                 WHERE id = :id";
 
             $stmt = $this->conn->prepare($sql);
@@ -283,7 +282,6 @@ class ArtistsGateway
             $stmt->bindValue(":homepageUrl", $new["homepageUrl"] ?? $current["homepageUrl"], PDO::PARAM_STR);
             $stmt->bindValue(":facebookUrl", $new["facebookUrl"] ?? $current["facebookUrl"], PDO::PARAM_STR);
             $stmt->bindValue(":instaUrl", $new["instaUrl"] ?? $current["instaUrl"], PDO::PARAM_STR);
-            $stmt->bindValue(":twitter", $new["twitter"] ?? $current["twitter"], PDO::PARAM_STR);
             $stmt->bindValue(":id", $current["id"], PDO::PARAM_INT);
             $stmt->execute();
 
