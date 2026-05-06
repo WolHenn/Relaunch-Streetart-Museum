@@ -130,7 +130,7 @@ export default function ArtistForm({ artist, onSave, onCancel }: Props) {
           onClick={onCancel}
           className="bg-gray-400 text-white px-4 py-2 rounded"
         >
-          Abbrechen
+          {isEditMode ? "Abbrechen" : "Schließen"}
         </button>
       </div>
     </div>
